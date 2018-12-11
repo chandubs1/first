@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
       image 'ubuntu'
-      args '-e "http_proxy=http://www-proxy.us.oracle.com:80" -e "https_proxy=https://www-proxy.us.oracle.com:80"  -d -ti '
+      args '-u root -e "http_proxy=http://www-proxy.us.oracle.com:80" -e "https_proxy=https://www-proxy.us.oracle.com:80"  -d -ti '
     }
 
   }
@@ -12,7 +12,7 @@ pipeline {
         echo 'Hello from Blue Ocean Chandu'
       }
     }
-    stage('') {
+    stage('error') {
       steps {
         sh '''apt-get -y update
 apt-get install -y python python-pip wget'''
