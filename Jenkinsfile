@@ -1,37 +1,23 @@
 pipeline {
-  agent any
-  stages {
-    stage('Initialize') {
-      parallel {
-        stage('Initialize') {
-          steps {
-            sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            echo 'Hello chandu'
-          }
-        }
-        stage('echo') {
-          steps {
-            sh '''echo Chandu from Blue Ocean
-'''
-          }
-        }
-      }
+  agent {
+    docker {
+      image 'maven:3.3.9-jdk-8'
+      args '-e "http_proxy=http://www-proxy.us.oracle.com:80" -e "https_proxy=https://www-proxy.us.oracle.com:80"  -d -ti --name VM1'
     }
-    stage('Build') {
+
+  }
+  stages {
+    stage('Init') {
       steps {
-        sh 'echo "Hello World"'
-        sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
+        echo 'Hello from Blue Ocean Chandu'
       }
     }
   }
   tools {
     maven 'M3'
     jdk 'jdk8'
+  }
+  environment {
+    ENV = 'https_proxy="https://www-proxy.us.oracle.com:80"'
   }
 }
